@@ -1,0 +1,14 @@
+<strong>Внимание {{ .Type }}!</strong>
+
+<strong>Предмет: </strong> {{ .Subject }}
+
+<strong>Начало: </strong> {{ .TimeAt }}
+
+{{ if .Teacher }}<strong>Преподаватель: </strong> {{ .Teacher }}
+{{ end }}
+{{ if .Location }}<strong>Местоположение: </strong> {{ .Location }}
+{{ end }}
+{{ if .Class }}<strong>Аудитория: </strong> {{ .Class }}
+{{ end }}
+{{ if .Link }}<a href="{{ .Link }}">Ссылка на конференцию</a>
+{{ end }}

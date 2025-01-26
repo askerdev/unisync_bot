@@ -11,10 +11,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/askerkh/unisync.bot/internal/cli"
-	"github.com/askerkh/unisync.bot/internal/mospolytech"
-	"github.com/askerkh/unisync.bot/internal/sqlite"
-	"github.com/askerkh/unisync.bot/internal/tg"
+	"github.com/askerdev/unisync_bot/internal/cli"
+	"github.com/askerdev/unisync_bot/internal/mospolytech"
+	"github.com/askerdev/unisync_bot/internal/sqlite"
+	"github.com/askerdev/unisync_bot/internal/tg"
 	_ "github.com/mattn/go-sqlite3"
 )
 

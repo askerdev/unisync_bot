@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/askerkh/unisync.bot/internal/converter"
-	"github.com/askerkh/unisync.bot/internal/domain"
-	"github.com/askerkh/unisync.bot/internal/mospolytech"
-	"github.com/askerkh/unisync.bot/internal/tg"
+	"github.com/askerdev/unisync_bot/internal/converter"
+	"github.com/askerdev/unisync_bot/internal/domain"
+	"github.com/askerdev/unisync_bot/internal/mospolytech"
+	"github.com/askerdev/unisync_bot/internal/tg"
 )
 
 var GROUP = os.Getenv("GROUP")

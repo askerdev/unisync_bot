@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/askerkh/unisync.bot/internal/domain"
+	"github.com/askerdev/unisync_bot/internal/domain"
 )
 
 type storage struct {

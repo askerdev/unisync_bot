@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/askerkh/unisync.bot/internal/domain"
-	"github.com/askerkh/unisync.bot/internal/mospolytech"
-	"github.com/askerkh/unisync.bot/internal/tmpl"
+	"github.com/askerdev/unisync_bot/internal/domain"
+	"github.com/askerdev/unisync_bot/internal/mospolytech"
+	"github.com/askerdev/unisync_bot/internal/tmpl"
 )
 
 func tasksFromLecture(
@@ -48,6 +48,10 @@ func tasksFromLecture(
 			curr.Location(),
 		)
 		t.TimeAt = timeAt.Unix()
+
+		if t.TimeAt < time.Now().Unix() {
+			continue
+		}
 
 		params := &tmpl.MessageParams{
 			Type:     lecture.Type,

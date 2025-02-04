@@ -27,6 +27,7 @@ func tasksFromLecture(
 		return nil, err
 	}
 
+	now := time.Now()
 	for curr := start; curr.Before(end); curr = curr.AddDate(0, 0, 1) {
 		if int(curr.Weekday()) != weekDay {
 			continue
@@ -45,11 +46,11 @@ func tasksFromLecture(
 			domain.LectureHourMinute[lectureNumber][0],
 			domain.LectureHourMinute[lectureNumber][1],
 			0, 0,
-			curr.Location(),
+			now.Location(),
 		)
 		t.TimeAt = timeAt.Unix()
 
-		if t.TimeAt < time.Now().Unix() {
+		if t.TimeAt < now.Unix() {
 			continue
 		}
 

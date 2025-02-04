@@ -18,30 +18,30 @@ var CHAT_ID = os.Getenv("CHAT_ID")
 
 type Handler func(context.Context) error
 
-type Storage interface {
+type storage interface {
 	Insert(context.Context, []*domain.Task) error
 	Select(context.Context) ([]*domain.Task, error)
 	Delete(context.Context, int) error
 }
 
-type TelegramBot interface {
+type telegramBot interface {
 	SendMessage(*tg.SendMessageParams) (*tg.Message, error)
 }
 
-type MospolytechAPI interface {
+type mospolytechAPI interface {
 	Schedule() (*mospolytech.SemesterSchedule, error)
 }
 
-type app struct {
+type cli struct {
 	args     []string
-	storage  Storage
-	bot      TelegramBot
-	mpAPI    MospolytechAPI
+	storage  storage
+	bot      telegramBot
+	mpAPI    mospolytechAPI
 	handlers map[string]Handler
 }
 
-func NewApp(args []string, storage Storage, api MospolytechAPI, bot TelegramBot) *app {
-	return &app{
+func New(args []string, storage storage, api mospolytechAPI, bot telegramBot) *cli {
+	return &cli{
 		args:     args,
 		storage:  storage,
 		mpAPI:    api,
@@ -50,7 +50,7 @@ func NewApp(args []string, storage Storage, api MospolytechAPI, bot TelegramBot)
 	}
 }
 
-func (a *app) test(ctx context.Context) error {
+func (a *cli) test(ctx context.Context) error {
 	tasks, err := a.storage.Select(ctx)
 	if err != nil {
 		return err
@@ -82,12 +82,12 @@ func (a *app) test(ctx context.Context) error {
 	return nil
 }
 
-func (a *app) update(ctx context.Context) error {
+func (a *cli) update(ctx context.Context) error {
 	sch, err := a.mpAPI.Schedule()
 	if err != nil {
 		return err
 	}
-	tasks, err := converter.TasksFromSchedule(CHAT_ID, GROUP, sch)
+	tasks, err := converter.TasksFromSchedule(CHAT_ID, "241-3210", sch)
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func (a *app) update(ctx context.Context) error {
 	return a.storage.Insert(ctx, tasks)
 }
 
-func (a *app) notify(ctx context.Context) error {
+func (a *cli) notify(ctx context.Context) error {
 	tasks, err := a.storage.Select(ctx)
 	if err != nil {
 		return err
@@ -118,11 +118,14 @@ func (a *app) notify(ctx context.Context) error {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			a.bot.SendMessage(&tg.SendMessageParams{
+			_, err := a.bot.SendMessage(&tg.SendMessageParams{
 				ChatID:    t.ChatID,
 				Text:      t.Text,
 				ParseMode: "HTML",
 			})
+			if err != nil {
+				panic(err)
+			}
 		}()
 	}
 
@@ -131,7 +134,7 @@ func (a *app) notify(ctx context.Context) error {
 	return nil
 }
 
-func (a *app) Run(ctx context.Context) error {
+func (a *cli) Run(ctx context.Context) error {
 	a.handlers["update"] = a.update
 	a.handlers["notify"] = a.notify
 	a.handlers["test"] = a.test

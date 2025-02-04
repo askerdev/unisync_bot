@@ -47,7 +47,7 @@ func main() {
 		httpclient,
 	)
 
-	app := cli.NewApp(os.Args, storage, api, bot)
+	app := cli.New(os.Args, storage, api, bot)
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
 

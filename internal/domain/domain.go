@@ -1,10 +1,12 @@
 package domain
 
+import "time"
+
 type Task struct {
 	ID     int
 	ChatID string
 	Text   string
-	TimeAt int64
+	TimeAt time.Time
 }
 
 var LectureHourMinute = map[int][]int{

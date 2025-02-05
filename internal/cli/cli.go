@@ -3,7 +3,6 @@ package cli
 import (
 	"context"
 	"os"
-	"time"
 
 	"github.com/askerdev/unisync_bot/internal/converter"
 	"github.com/askerdev/unisync_bot/internal/mospolytech"
@@ -49,11 +48,7 @@ func (a *cli) notify() error {
 		return err
 	}
 
-	now := time.Now().Unix()
 	for _, t := range tasks {
-		if t.TimeAt > now {
-			continue
-		}
 		_, err := a.bot.SendMessage(&tg.SendMessageParams{
 			ChatID:    t.ChatID,
 			Text:      t.Text,

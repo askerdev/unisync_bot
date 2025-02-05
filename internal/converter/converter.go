@@ -48,9 +48,12 @@ func tasksFromLecture(
 			0, 0,
 			now.Location(),
 		)
-		t.TimeAt = timeAt.Unix()
+		t.TimeAt = timeAt
 
-		if t.TimeAt < now.Unix() {
+		if timeAt.Year() != now.Year() || timeAt.Month() != now.Month() ||
+			timeAt.Day() != now.Day() ||
+			timeAt.Hour() != now.Hour() ||
+			timeAt.Minute() != now.Minute() {
 			continue
 		}
 
